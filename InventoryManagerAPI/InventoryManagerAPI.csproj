@@ -19,7 +19,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+      <ProjectReference Include="..\InventoryManager.Application\InventoryManager.Application.csproj" />
+      <ProjectReference Include="..\InventoryManagerAPI.Domain\InventoryManagerAPI.Domain.csproj" />
+      <ProjectReference Include="..\InventoryManagerAPI.Infrastructure\InventoryManagerAPI.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
