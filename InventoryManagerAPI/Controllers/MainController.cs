@@ -41,7 +41,7 @@ public class MainController : ControllerBase
             return StatusCode(StatusCodes.Status400BadRequest);
         }
         
-        foreach (var filePath in result.Item2)
+        var tasks = result.Item2.Select(async filePath =>
         {
             var handler = _fileHandlerFactory.GetFileHandler(filePath);
 
@@ -56,7 +56,9 @@ public class MainController : ControllerBase
                 Console.WriteLine($"Unrecognized file: {filePath}");
             }
             // Perform actions common to all files if needed...
-        }
+        });
+
+        await Task.WhenAll(tasks);
         
         return Ok("Files uploaded successfully.");
     }
