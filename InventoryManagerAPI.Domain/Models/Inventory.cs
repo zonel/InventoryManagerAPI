@@ -1,12 +1,15 @@
-﻿namespace InventoryManagerAPI.Domain.Models;
+﻿using System.Runtime.CompilerServices;
+using CsvHelper.Configuration.Attributes;
+
+namespace InventoryManagerAPI.Domain.Models;
 
 public class Inventory
 {
-    public int Product_ID { get; set; }
-    public string SKU { get; set; }
-    public string Unit { get; set; }
-    public int Qty { get; set; }
-    public string Manufacturer { get; set; }
-    public int Shipping { get; set; }
-    public decimal Shipping_Cost { get; set; }
+    public int ProductId { get; set; }
+    public string? Sku { get; set; }
+    public string? Unit { get; set; }
+    public decimal Qty { get; set; }
+    public string? Manufacturer { get; set; }
+    public string Shipping { get; set; }
+    public decimal? ShippingCost { get; set; }
 }

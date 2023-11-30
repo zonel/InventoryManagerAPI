@@ -2,10 +2,10 @@
 
 public class Price
 {
-    public int Price_ID { get; set; }
-    public string SKU { get; set; }
-    public decimal Nett_Product_Price { get; set; }
-    public decimal Nett_Product_Price_Discount { get; set; }
-    public decimal VAT_Rate { get; set; }
-    public decimal Nett_Product_Price_Discount_Logistic { get; set; }
+    public string? PriceId { get; set; }
+    public string? Sku { get; set; }
+    public decimal? NettProductPrice { get; set; }
+    public decimal? NettProductPriceDiscount { get; set; }
+    public decimal? VatRate { get; set; }
+    public decimal? NettProductPriceDiscountLogistic { get; set; }
 }
