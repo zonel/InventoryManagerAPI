@@ -1,4 +1,5 @@
 ﻿using InventoryManagerAPI.Domain.Csv;
+using Serilog;
 
 namespace InventoryManagerAPI.Infrastructure.Csv;
 
@@ -26,7 +27,7 @@ public class Read : ICsvFileReader
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error reading file: {ex.Message}");
+            Log.Error($"Error reading file: {ex.Message}");
             throw;
         }
 

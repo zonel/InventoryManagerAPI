@@ -6,6 +6,7 @@ using InventoryManagerAPI.Domain.Mapping;
 using InventoryManagerAPI.Domain.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace InventoryManagerAPI.Controllers;
 
@@ -53,14 +54,14 @@ public class MainController : ControllerBase
             else
             {
                 // Handle unrecognized files or paths
-                Console.WriteLine($"Unrecognized file: {filePath}");
+                Log.Error($"Unrecognized file: {filePath}");
             }
             // Perform actions common to all files if needed...
         });
 
         await Task.WhenAll(tasks);
         
-        return Ok("Files uploaded successfully.");
+        return Ok("[200] - Operations on files you've provided were successful.");
     }
     
     [HttpGet("/products/{SKU}")]

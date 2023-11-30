@@ -4,6 +4,8 @@ using CsvHelper.Configuration;
 using InventoryManager.Application.Mapping.EntityMappings;
 using InventoryManagerAPI.Domain.Mapping;
 using InventoryManagerAPI.Domain.Models;
+using Serilog;
+using Z.BulkOperations;
 
 namespace InventoryManager.Application.Mapping;
 
@@ -30,7 +32,7 @@ public class MapCsv : ICsvMapper
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error mapping CSV: {ex.Message}");
+            Log.Error($"Error mapping CSV: {ex.Message}");
             throw;
         }
     }

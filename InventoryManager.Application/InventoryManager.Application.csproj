@@ -12,6 +12,7 @@
       <PackageReference Include="DapperPlus" Version="1.1.0.2" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+      <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
       <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
       <PackageReference Include="Z.Dapper.Plus" Version="7.1.0" />
     </ItemGroup>
