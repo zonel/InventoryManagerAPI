@@ -19,7 +19,7 @@ public class NullableIntConverter : DefaultTypeConverter
             // If conversion to int succeeds, return the value
             return result;
         }
-
+        
         // Return null if conversion fails
         return null;
     }
