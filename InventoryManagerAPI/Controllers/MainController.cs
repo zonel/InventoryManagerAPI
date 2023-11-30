@@ -1,5 +1,9 @@
-﻿using InventoryManagerAPI.Domain.Csv;
+﻿using InventoryManager.Application.Handlers;
+using InventoryManagerAPI.Domain.Csv;
 using InventoryManagerAPI.Domain.File;
+using InventoryManagerAPI.Domain.Handler;
+using InventoryManagerAPI.Domain.Mapping;
+using InventoryManagerAPI.Domain.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +16,15 @@ public class MainController : ControllerBase
 {
     private readonly IFileUploader  _fileUploadUseCase;
     private readonly ICsvFileReader _csvFileReader;
+    private readonly ICsvMapper _csvMapper;
+    private readonly IFileHandlerFactory _fileHandlerFactory;
 
-    public MainController(IFileUploader fileUploadUseCase, ICsvFileReader csvFileReader)
+    public MainController(IFileUploader fileUploadUseCase, ICsvFileReader csvFileReader, ICsvMapper csvMapper, IFileHandlerFactory fileHandlerFactory)
     {
         _fileUploadUseCase = fileUploadUseCase;
         _csvFileReader = csvFileReader;
+        _csvMapper = csvMapper;
+        _fileHandlerFactory = fileHandlerFactory;
     }
 
     [HttpPost("/importData")]
@@ -28,12 +36,28 @@ public class MainController : ControllerBase
         var files = form.Files.ToList();
 
         var result = await _fileUploadUseCase.UploadFilesAsync(files, HttpContext);
-
         if (!result.Item1)
         {
             return StatusCode(StatusCodes.Status400BadRequest);
         }
+        
+        foreach (var filePath in result.Item2)
+        {
+            var handler = _fileHandlerFactory.GetFileHandler(filePath);
 
+            if (handler != null)
+            {
+                var fileContent = await _csvFileReader.ReadFileAsync(filePath);
+                await handler.HandleAsync(fileContent.ToList());
+            }
+            else
+            {
+                // Handle unrecognized files or paths
+                Console.WriteLine($"Unrecognized file: {filePath}");
+            }
+            // Perform actions common to all files if needed...
+        }
+        
         return Ok("Files uploaded successfully.");
     }
     
