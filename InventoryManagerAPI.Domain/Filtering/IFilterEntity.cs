@@ -2,5 +2,5 @@
 
 public interface IFilterEntity
 {
-    public List<T> FilterEntities<T>(List<T> entities, Func<T, bool> predicate);
+    public Task<List<T>> FilterEntitiesAsync<T>(List<T> entities, Func<T, bool> predicate);
 }
