@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using InventoryManagerAPI.Middleware;
+using Serilog;
 
 namespace InventoryManagerAPI.Configuration;
 
@@ -18,6 +19,8 @@ public static class ServiceCollection
         });
         #endregion
         
+        services.AddScoped<ExceptionHandlingMiddleware>();
+
         return services;
     }
 }

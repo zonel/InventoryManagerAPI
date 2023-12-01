@@ -3,7 +3,6 @@ using InventoryManagerAPI.Domain.Csv;
 using InventoryManagerAPI.Domain.Exceptions;
 using InventoryManagerAPI.Domain.File;
 using InventoryManagerAPI.Domain.Handler;
-using InventoryManagerAPI.Domain.Mapping;
 using InventoryManagerAPI.Domain.Repositories;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +10,9 @@ using Serilog;
 
 namespace InventoryManagerAPI.Controllers;
 
+/// <summary>
+/// Main controller of the API.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 
@@ -18,24 +20,33 @@ public class MainController : ControllerBase
 {
     private readonly IFileUploader  _fileUploadUseCase;
     private readonly ICsvFileReader _csvFileReader;
-    private readonly ICsvMapper _csvMapper;
     private readonly IFileHandlerFactory _fileHandlerFactory;
     private readonly IDatabaseRepository _databaseRepository;
 
+    /// <summary>
+    /// Dependency injection constructor.
+    /// </summary>
+    /// <param name="fileUploadUseCase">It handles process of uploading files.</param>
+    /// <param name="csvFileReader">It handles process of reading CSV files.</param>
+    /// <param name="fileHandlerFactory">This factory creates appropriate fileHandler for known files.</param>
+    /// <param name="databaseRepository">This repository handles interactions with databse.</param>
     public MainController(
         IFileUploader fileUploadUseCase, 
         ICsvFileReader csvFileReader, 
-        ICsvMapper csvMapper, 
         IFileHandlerFactory fileHandlerFactory,
         IDatabaseRepository databaseRepository)
     {
         _fileUploadUseCase = fileUploadUseCase;
         _csvFileReader = csvFileReader;
-        _csvMapper = csvMapper;
         _fileHandlerFactory = fileHandlerFactory;
         _databaseRepository = databaseRepository;
     }
 
+    /// <summary>
+    /// This endpoint imports data from the provided files then makes operations on them and finally it stores selected ones in database.
+    /// </summary>
+    /// <returns>IActionResult</returns>
+    /// <exception cref="UnrecognizedFileException">File title not recognized / No matching handler found</exception>
     [HttpPost("/importData")]
     public async Task<IActionResult> ImportData()
     {
@@ -72,12 +83,17 @@ public class MainController : ControllerBase
         return Ok("[200] - Operations on files you've provided were successful.");
     }
     
+    /// <summary>
+    /// This endpoint returns a productDto object of the provided sku.
+    /// </summary>
+    /// <param name="sku">SKU of item searched</param>
+    /// <returns>ProductDto</returns>
     [HttpGet("/products/{sku}")]
     public async Task<IActionResult> GetProductInformation([FromRoute]string sku)
     {
             var productInfo = await _databaseRepository.GetProductDataAsync<ProductDto>(sku);
             if (productInfo == null)
-                return NotFound(); // or appropriate HTTP status code
+                return NotFound();
             return Ok(productInfo);
         }
     }
