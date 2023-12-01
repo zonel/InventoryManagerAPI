@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\InventoryManager.Application\InventoryManager.Application.csproj" />
       <ProjectReference Include="..\InventoryManagerAPI.Domain\InventoryManagerAPI.Domain.csproj" />
     </ItemGroup>
 

@@ -1,9 +1,10 @@
-﻿using InventoryManager.Application.Handlers;
+﻿using InventoryManager.Application.Dto;
 using InventoryManagerAPI.Domain.Csv;
+using InventoryManagerAPI.Domain.Exceptions;
 using InventoryManagerAPI.Domain.File;
 using InventoryManagerAPI.Domain.Handler;
 using InventoryManagerAPI.Domain.Mapping;
-using InventoryManagerAPI.Domain.Models;
+using InventoryManagerAPI.Domain.Repositories;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -19,13 +20,20 @@ public class MainController : ControllerBase
     private readonly ICsvFileReader _csvFileReader;
     private readonly ICsvMapper _csvMapper;
     private readonly IFileHandlerFactory _fileHandlerFactory;
+    private readonly IDatabaseRepository _databaseRepository;
 
-    public MainController(IFileUploader fileUploadUseCase, ICsvFileReader csvFileReader, ICsvMapper csvMapper, IFileHandlerFactory fileHandlerFactory)
+    public MainController(
+        IFileUploader fileUploadUseCase, 
+        ICsvFileReader csvFileReader, 
+        ICsvMapper csvMapper, 
+        IFileHandlerFactory fileHandlerFactory,
+        IDatabaseRepository databaseRepository)
     {
         _fileUploadUseCase = fileUploadUseCase;
         _csvFileReader = csvFileReader;
         _csvMapper = csvMapper;
         _fileHandlerFactory = fileHandlerFactory;
+        _databaseRepository = databaseRepository;
     }
 
     [HttpPost("/importData")]
@@ -55,8 +63,8 @@ public class MainController : ControllerBase
             {
                 // Handle unrecognized files or paths
                 Log.Error($"Unrecognized file: {filePath}");
+                throw new UnrecognizedFileException($"Unrecognized file: {filePath}");
             }
-            // Perform actions common to all files if needed...
         });
 
         await Task.WhenAll(tasks);
@@ -64,10 +72,12 @@ public class MainController : ControllerBase
         return Ok("[200] - Operations on files you've provided were successful.");
     }
     
-    [HttpGet("/products/{SKU}")]
-    public async Task<IActionResult> GetProductInformation(string sku)
+    [HttpGet("/products/{sku}")]
+    public async Task<IActionResult> GetProductInformation([FromRoute]string sku)
     {
-        return Ok($"Product information for SKU: {sku}");
+            var productInfo = await _databaseRepository.GetProductDataAsync<ProductDto>(sku);
+            if (productInfo == null)
+                return NotFound(); // or appropriate HTTP status code
+            return Ok(productInfo);
+        }
     }
-
-}
