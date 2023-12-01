@@ -2,10 +2,10 @@
 using InventoryManager.Application.Mapping.EntityMappings;
 using InventoryManagerAPI.Domain.Configuration;
 using InventoryManagerAPI.Domain.DatabaseInteraction;
+using InventoryManagerAPI.Domain.Entities;
 using InventoryManagerAPI.Domain.Filtering;
 using InventoryManagerAPI.Domain.Handler;
 using InventoryManagerAPI.Domain.Mapping;
-using InventoryManagerAPI.Domain.Models;
 using Z.Dapper.Plus;
 
 

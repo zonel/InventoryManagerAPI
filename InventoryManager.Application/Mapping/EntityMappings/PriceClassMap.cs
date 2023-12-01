@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using InventoryManager.Application.Mapping.TypeConverters;
-using InventoryManagerAPI.Domain.Models;
+using InventoryManagerAPI.Domain.Entities;
 
 namespace InventoryManager.Application.Mapping.EntityMappings;
 

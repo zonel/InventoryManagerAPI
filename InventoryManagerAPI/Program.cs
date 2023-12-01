@@ -3,7 +3,6 @@ using InventoryManager.Application.Configuration;
 using InventoryManagerAPI.Configuration;
 using InventoryManagerAPI.Infrastructure.Configuration;
 using InventoryManagerAPI.Middleware;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);

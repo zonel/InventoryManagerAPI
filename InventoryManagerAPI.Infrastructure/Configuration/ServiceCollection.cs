@@ -16,7 +16,14 @@ public static class ServiceCollection
     {
         services.AddScoped<ICsvFileReader, Read>();
         services.AddScoped<IDatabaseBulkInsert, Insert>();
-        services.AddScoped<IConfigurationManager, ConfigurationManager>();
+        services.AddScoped<IConfigurationManager, ConnectionProvider>();
+        services.AddScoped<IDatabaseRepository, DatabaseRepository>();
+        
+        services.AddScoped<ICsvFileReader, Read>()
+            .AddScoped<IDatabaseBulkInsert, Insert>()
+            .AddScoped<IConfigurationManager, ConnectionProvider>();
+        services.AddScoped<IDatabaseBulkInsert, Insert>();
+        services.AddScoped<IConfigurationManager, ConnectionProvider>();
         services.AddScoped<IDatabaseRepository, DatabaseRepository>();
         return services;
     }

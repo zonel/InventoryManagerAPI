@@ -18,12 +18,8 @@ public class Save : IFileSaver
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Uploads"));
             }
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
+            using var stream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(stream);
             return filePath;
         }
-    
     }

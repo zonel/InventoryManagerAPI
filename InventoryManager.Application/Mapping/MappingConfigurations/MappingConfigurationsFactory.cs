@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using CsvHelper.Configuration;
+using InventoryManagerAPI.Domain.Entities;
 using InventoryManagerAPI.Domain.Mapping;
-using InventoryManagerAPI.Domain.Models;
 
 namespace InventoryManager.Application.Mapping.MappingConfigurations;
 

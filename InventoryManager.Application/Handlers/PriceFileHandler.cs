@@ -1,9 +1,9 @@
 ﻿using InventoryManager.Application.Mapping.EntityMappings;
 using InventoryManagerAPI.Domain.Configuration;
 using InventoryManagerAPI.Domain.DatabaseInteraction;
+using InventoryManagerAPI.Domain.Entities;
 using InventoryManagerAPI.Domain.Handler;
 using InventoryManagerAPI.Domain.Mapping;
-using InventoryManagerAPI.Domain.Models;
 
 namespace InventoryManager.Application.Handlers;
 
@@ -15,20 +15,19 @@ public class PriceFileHandler : IFileHandler
     private readonly IDatabaseBulkInsert _databaseBulkInsert;
     private readonly IConfigurationManager _configurationManager;
 
-
     public PriceFileHandler(
         ICsvMapper csvMapper, 
         IMappingConfigurationsFactory mappingConfigurationsFactory, 
         PriceClassMap classMap,
         IDatabaseBulkInsert databaseBulkInsert,
-        IConfigurationManager configuration)
-    {
+        IConfigurationManager configuration) {
         _mappingConfigurationsFactory = mappingConfigurationsFactory;
         _csvMapper = csvMapper;
         _priceClassMap = classMap;
         _databaseBulkInsert = databaseBulkInsert;
         _configurationManager = configuration;
     }
+    
     public async Task HandleAsync(List<string> fileContent)
     {
         var connectionString = _configurationManager.GetConnectionString();

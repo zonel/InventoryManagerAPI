@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using CsvHelper.Configuration.Attributes;
-
-namespace InventoryManagerAPI.Domain.Models;
+﻿namespace InventoryManagerAPI.Domain.Entities;
 
 public class Inventory
 {

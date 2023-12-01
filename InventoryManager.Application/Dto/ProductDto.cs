@@ -1,6 +1,6 @@
 ﻿namespace InventoryManager.Application.Dto;
 
-public class ProductDto
+public record ProductDto
 {
     public string ProductName { get; set; }
     public string EAN { get; set; }

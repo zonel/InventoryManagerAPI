@@ -1,4 +1,4 @@
-﻿namespace InventoryManagerAPI.Domain.Models;
+﻿namespace InventoryManagerAPI.Domain.Entities;
 
 public class Price
 {

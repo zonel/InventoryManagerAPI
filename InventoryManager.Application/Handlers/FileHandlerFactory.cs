@@ -14,21 +14,22 @@ public class FileHandlerFactory : IFileHandlerFactory
 
     public IFileHandler GetFileHandler(string filePath)
     {
-        if (filePath.Contains("Inventory.csv"))
+        IFileHandler fileHandler;
+    
+        switch (filePath)
         {
-            return _serviceProvider.GetRequiredService<InventoryFileHandler>();
+            case var _ when filePath.Contains("Inventory.csv"):
+                fileHandler = _serviceProvider.GetRequiredService<InventoryFileHandler>();
+                break;
+            case var _ when filePath.Contains("Products.csv"):
+                fileHandler = _serviceProvider.GetRequiredService<ProductFileHandler>();
+                break;
+            case var _ when filePath.Contains("Prices.csv"):
+                fileHandler = _serviceProvider.GetRequiredService<PriceFileHandler>();
+                break;
+            default:
+                throw new NotSupportedException($"No handler found for file: {filePath}");
         }
-        else if (filePath.Contains("Products.csv"))
-        {
-            return _serviceProvider.GetRequiredService<ProductFileHandler>();
-        }
-        else if (filePath.Contains("Prices.csv"))
-        {
-            return _serviceProvider.GetRequiredService<PriceFileHandler>();
-        }
-        else
-        {
-            throw new NotSupportedException($"No handler found for file: {filePath}");
-        }
+        return fileHandler;
     }
 }

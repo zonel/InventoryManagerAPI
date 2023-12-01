@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
-using IConfigurationManager = InventoryManagerAPI.Domain.Configuration.IConfigurationManager;
+using IConnectionProvider = InventoryManagerAPI.Domain.Configuration.IConfigurationManager;
 
 namespace InventoryManagerAPI.Infrastructure.Configuration;
 
-public class ConfigurationManager : IConfigurationManager
+public class ConnectionProvider : IConnectionProvider
 {
     private readonly IConfiguration _configuration;
 
-    public ConfigurationManager(IConfiguration configuration)
+    public ConnectionProvider(IConfiguration configuration)
     {
         _configuration = configuration;
     }
